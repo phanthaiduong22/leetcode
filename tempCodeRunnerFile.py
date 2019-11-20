@@ -1,2 +1,2 @@
-        if(size==0):
-            return 0
+
+        for i in range(numbers)
