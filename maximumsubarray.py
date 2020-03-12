@@ -1,18 +1,15 @@
 from typing import List
+
+
 class Solution:
-    def maxSubArray(self, nums: List[int])->int :
-        if(len(nums)==0):
-            return 0
-        min = 0
-        max = nums[0]
-        sum = 0
-        for i in range(1,len(nums)):
-            if(sum + nums[i]< min):
-                min = sum + nums[i]x
-            if(sum + nums[i]> max):
-                max = sum + nums[i]
-            sum +=nums[i]
-        return max - min
+    def maxSubArray(self, nums: List[int]) -> int:
+        ans = nums[0]
+        for i in range(1, len(nums)):
+            if(nums[i-1] > 0):
+                nums[i] = nums[i-1]+nums[i]
+            ans = max(nums[i], ans)
+        return ans
+
 
 s = Solution()
-print(s.maxSubArray([5,6]))
+print(s.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))
