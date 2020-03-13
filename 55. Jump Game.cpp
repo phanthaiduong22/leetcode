@@ -1,35 +1,25 @@
 #include <iostream>
 #include <vector>
-
+#include <algorithm>
 using namespace std;
 
 class Solution {
 public:
-	int ans = 0;
-	void backtracking(vector<int> a, int n, int pos, vector<int>& visited) {
-		visited[pos] = true;
-		if (pos == n - 1) {
-			ans = 1;
-			return;
-		}
-		for (int i = 1; i <= a[pos]; i++) {
-			if (ans == 1) {
-				return;
-			}
-			if (visited[pos + i] == false) {
-				backtracking(a, n, pos + i, visited);
-			}
-		}
-	}
 	bool canJump(vector<int>& nums) {
-		vector<int> visited(nums.size());
-		backtracking(nums, nums.size(), 0, visited);
-		return ans;
+		if (nums.size() == 0 || nums.size() == 1) return true;
+		int m = nums[0];
+		for (int i = 1; i < nums.size(); i++) {
+			if (i > m) return false;
+			m = max(m, i + nums[i]);
+			if (m >= nums.size() - 1)
+				return true;
+		}
+		return false;
 	}
 };
 
 int main() {
+	vector<int> v = { 0,1 };
 	Solution s;
-	vector<int> v = { 1,1,1,1 };
-	cout << s.canJump(v) << endl;
+	cout << s.canJump(v);
 }

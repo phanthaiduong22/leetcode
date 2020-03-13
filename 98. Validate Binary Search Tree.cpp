@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 struct TreeNode {
@@ -12,21 +11,24 @@ struct TreeNode {
 
 class Solution {
 public:
+	vector<int>a;
+	void inorder(TreeNode* root) {
+		if (root == NULL) return;
+		inorder(root->left);
+		a.push_back(root->val);
+		inorder(root->right);
+	}
 	bool isValidBST(TreeNode* root) {
 		if (root == NULL) return true;
-		if (root->left != NULL && root->left->val > root->val) return false;
-		if (root->right != NULL && root->right->val < root->val) return false;
-		if (!isValidBST(root->left) || !isValidBST(root->right)) return false;
+		inorder(root);
+		for (int i = 1; i < a.size(); i++) {
+			if (a[i] <= a[i - 1])
+				return false;
+		}
 		return true;
 	}
 };
 
 int main() {
-	TreeNode* s = new TreeNode(5);
-	s->left = new TreeNode(1);
-	s->right = new TreeNode(4);
-	s->right->left = new TreeNode(3);
-	s->right->right = new TreeNode(6);
-	Solution v;
-	cout << v.isValidBST(s);
+
 }
