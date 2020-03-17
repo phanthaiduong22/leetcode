@@ -6,26 +6,17 @@ using namespace std;
 class Solution {
 public:
 	int coinChange(vector<int>& coins, int amount) {
+		if (amount <= 0) return 0;
 		sort(coins.begin(), coins.end());
-		if (amount == 0) return 0;
-		vector<int> ans(amount + 1);
-		ans[0] = 0;
-		for (int i = 0; i < coins.size(); i++) {
-			int j, k;
-			if (i == coins.size() - 1) k = amount + 1;
-			else k = coins[i + 1];
-			j = coins[i];
-			for (j; j < k, j <= amount; j++) {
-
-				if (j == coins[i])
-					ans[j] = 1;
-				else if (ans[j - coins[i]] == 0)
-					ans[j] = 0;
-				else if (j - coins[i] <= amount)
-					ans[j] = 1 + ans[j - coins[i]];
+		vector<int>ans(amount + 1, 999999999);
+		for (int j = 0; j < coins.size(); j++) {
+			for (int i = coins[j]; i <= amount; i++) {
+				if (i == coins[j])ans[i] = 1;
+				else if (ans[i - coins[j]] != 0)
+					ans[i] = min(ans[i], ans[i - coins[j]] + 1);
 			}
 		}
-		if (ans[amount] == 0) return -1;
+		if (ans[amount] == 0 || ans[amount] == 999999999) return -1;
 		return ans[amount];
 	}
 };
