@@ -8,64 +8,42 @@ using namespace std;
 
 class Solution {
 public:
-	void sort3(int& a, int& b, int& c) {
-		if (a > c)
-			swap(a, c);
-		if (a > b)
-			swap(a, b);
-		if (b > c)
-			swap(b, c);
-	}
 	vector<vector<int>> threeSum(vector<int>& nums) {
 		vector<vector<int>>ans;
-		if (nums.size() < 3) return ans;
-		map<int, int>d;
-		map<pair<int, int>, int>checkDuplicate;
-		//map<string, bool>checkDuplicate;
-		for (int i = 0; i < nums.size(); i++)
-			d[nums[i]]++;
-
-		for (int i = 0; i < nums.size() - 2; i++) {
-			for (int j = i + 1; j < nums.size() - 1; j++) {
-				int a = nums[i];
-				int b = nums[j];
-				int c = -a - b;
-				d[a]--;
-				d[b]--;
-				d[c]--;
-				if (d[a] >= 0 && d[b] >= 0 && d[c] >= 0) {
-					sort3(a, b, c);
-					//string s_temp = to_string(a) + to_string(b) + to_string(c);
-					//cout << s_temp << endl;
-					map<pair<int, int>, int>::iterator it;
-					it = checkDuplicate.find(make_pair(a, b));
-					if (it == checkDuplicate.end()) {
-						vector<int> temp;
-						temp.push_back(a);
-						temp.push_back(b);
-						temp.push_back(c);
-						ans.push_back(temp);
-						checkDuplicate[make_pair(a, b)] = c;
-					}
+		sort(nums.begin(), nums.end());
+		int s = nums.size();
+		for (int i = 0; i < s - 2; i++) {
+			if (i > 0 && nums[i] == nums[i - 1])
+				continue;
+			int l = i + 1;
+			int r = s - 1;
+			while (l < r) {
+				if (nums[i] + nums[l] + nums[r] == 0) {
+					ans.push_back(vector<int> {nums[i], nums[l], nums[r]});
+					while (l < s - 1 && nums[l] == nums[l + 1])
+						l++;
+					while (r > i + 1 && nums[r - 1] == nums[r])
+						r--;
+					l++;
+					r--;
 				}
-				d[a]++;
-				d[b]++;
-				d[c]++;
+				else if (nums[i] + nums[l] + nums[r] > 0) {
+					while (r > i + 1 && nums[r - 1] == nums[r])
+						r--;
+					r--;
+				}
+				else {
+					while (l < s - 1 && nums[l] == nums[l + 1])
+						l++;
+					l++;
+				}
 			}
-		}
-		cout << endl;
-		for (int i = 0; i < ans.size(); i++) {
-			for (int j = 0; j < ans[i].size(); j++) {
-				cout << ans[i][j] << " ";
-			}
-			cout << endl;
 		}
 		return ans;
 	}
 };
-
 int main() {
-	vector<int> v = { 0,0,0 };
+	vector<int> v = { 0,0,0,1,-1 };
 	Solution s;
 	s.threeSum(v);
 }
