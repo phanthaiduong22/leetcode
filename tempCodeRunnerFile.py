@@ -1,10 +1,16 @@
-                temp = remember
-            elif n < 0:
-                temp = temp.next
-            head = head.next
-            n -= 1
-        if(n == 0):
-            return head.next
-        else:
-            temp.next = temp.next.next
-            return remember
+class Solution:
+    def convertToTitle(self, n: int) -> str:
+        ans = ""
+        while n:
+            temp = n % 26
+            if temp != 0:
+                ans = str(chr(64+temp))+ans
+                n = n // 26
+            else:
+                ans = "Z"+ans
+                n = n//26-1
+        return ans
+
+
+s = Solution()
+print(s.convertToTitle(28))
